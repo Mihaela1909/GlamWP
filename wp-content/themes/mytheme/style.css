@@ -16,17 +16,42 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 /* ===== Header ===== */
 .site-header {
+	background: #5c0e2e;
+	color: #fff;
+    position: sticky;
+	top: 0;
+	z-index: 100;
+}
+.site-header .container {
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 1rem 1.5rem;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 1rem 2rem;
-	background: #5c0e2e;
-	color: #fff;
 }
 .site-header .logo { font-size: 1.5rem; font-style: italic; }
 .site-header nav ul { display: flex; gap: 2rem; }
-.site-header nav a { text-decoration: none; color: #fff; }
-
+.site-header nav a {
+	text-decoration: none;
+	color: #fff;
+	position: relative;
+	padding-bottom: 4px;
+}
+.site-header nav a::after {
+	content: '';
+	position: absolute;
+	left: 50%;
+	bottom: 0;
+	width: 0;
+	height: 2px;
+	background: #fff;
+	transition: width 0.3s ease, left 0.3s ease;
+}
+.site-header nav a:hover::after {
+	width: 100%;
+	left: 0;
+}
 /* ===== Hero ===== */
 .hero {
 	position: relative;
@@ -52,20 +77,34 @@ ul { list-style: none; margin: 0; padding: 0; }
 	color: #4a0e2e;
 	text-decoration: none;
 	font-weight: 600;
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.btn:hover { background: #eea0c3; }
+.btn:hover {
+	background: #4a0e2e;
+    color: #fff;
+	transform: scale(1.08);
+	box-shadow: 0 0 20px 6px rgba(255, 255, 255, 0.8);
+}
 
 /* ===== Brand message ===== */
 .brand-message {
-	background: linear-gradient(180deg, #f3c9d8, #fbf3ee);
-	text-align: center;
+	background: linear-gradient(180deg, #f3c9d8, #ffffff);
 	padding: 3rem 1.5rem;
 	font-size: 1.1rem;
-	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 2rem;
 }
-.sparkle { position: absolute; top: 40%; width: 40px; height: auto; }
-.sparkle-left { left: 15%; }
-.sparkle-right { right: 15%; }
+.brand-message p { text-align: center; margin: 0; }
+.sparkle { width: 64px; height: auto; flex-shrink: 0; }
+
+.section-divider {
+	height: 24px;
+	background: #5c0e2e;
+	width: 100%;
+	margin: 3rem 0;
+}
 
 /* ===== Bestsellers / Testimonials / Blog teaser ===== */
 .bestsellers, .testimonials, .blog-teaser {
@@ -74,7 +113,8 @@ ul { list-style: none; margin: 0; padding: 0; }
 	margin: 0 auto;
 }
 .bestsellers h2, .testimonials h2, .blog-teaser h2 {
-	margin-bottom: 1.5rem;
+	margin-bottom: 2.5rem;
+    font-size: 35px;
 }
 
 .product-grid, .blog-grid {
@@ -86,11 +126,12 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 .product-card, .blog-card {
 	background: #ecdcc7;
-	border-radius: 6px;
+	border-radius: 8px;
 	padding: 1rem;
 	text-decoration: none;
 	display: block;
 	transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
 }
 .product-card:hover {
 	transform: scale(1.04);
@@ -134,11 +175,12 @@ ul { list-style: none; margin: 0; padding: 0; }
 }
 .testimonial-card {
 	background: #ecdcc7;
-	border-radius: 0;
+	border-radius: 8px;
 	display: flex;
 	flex-direction: column;
 	height: 100%;
 	padding: 1.25rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
 }
 .testimonial-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
 .avatar { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; }
@@ -146,7 +188,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 .avatar-placeholder { background: #d8c3a5; }
 .sender-name { font-weight: 600; }
 .quote { margin: 0 0 0.75rem; }
-.testimonial-photo img { width: 100%; border-radius: 0; }
+.testimonial-photo img { width: 100%; border-radius: 6px; }
 .testimonial-photo { margin-top: auto; }
 
 .blog-card h3 { margin: 0 0 0.4rem; color: #7a1f45; }
@@ -157,7 +199,11 @@ ul { list-style: none; margin: 0; padding: 0; }
 .site-footer {
 	background: #5c0e2e;
 	color: #fff;
-	padding: 2rem;
+}
+.site-footer .container {
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 2rem 1.5rem;
 	display: grid;
 	grid-template-columns: 1fr 2fr 2fr 2fr;
 	gap: 1rem;
@@ -168,5 +214,5 @@ ul { list-style: none; margin: 0; padding: 0; }
 @media (max-width: 768px) {
 	.product-grid { grid-template-columns: repeat(2, 1fr); }
 	.testimonial-grid, .blog-grid { grid-template-columns: 1fr; }
-	.site-footer { grid-template-columns: 1fr; }
+	.site-footer .container { grid-template-columns: 1fr; }
 }

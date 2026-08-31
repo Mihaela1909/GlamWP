@@ -27,9 +27,9 @@ $content_id = ! empty( $site_content ) ? $site_content[0]->ID : null;
 
 <!-- ============ BRAND MESSAGE ============ -->
 <section class="brand-message">
-	<span class="sparkle sparkle-left">✦</span>
+	<img class="sparkle sparkle-left" src="<?php echo get_theme_file_uri( 'assets/star.png' ); ?>" alt="">
 	<p><?php echo $content_id ? nl2br( esc_html( get_field( 'brand_message', $content_id ) ) ) : 'At glam, you can find anything.<br>Whether you are a beginner or a pro, clean or messy.'; ?></p>
-	<span class="sparkle sparkle-right">✦</span>
+	<img class="sparkle sparkle-right" src="<?php echo get_theme_file_uri( 'assets/star.png' ); ?>" alt="">
 </section>
 
 <!-- ============ BESTSELLERS ============ -->
@@ -38,7 +38,7 @@ $content_id = ! empty( $site_content ) ? $site_content[0]->ID : null;
 	<div class="product-grid">
 		<?php
 		$bestsellers = new WP_Query( array(
-			'post_type'      => 'product', // adjust to your actual shop CPT slug
+			'post_type'      => 'product',
 			'posts_per_page' => 4,
 			'orderby'        => 'date',
 		) );
@@ -60,6 +60,8 @@ $content_id = ! empty( $site_content ) ? $site_content[0]->ID : null;
 	</div>
 	<p class="see-more"><a href="<?php echo esc_url( get_post_type_archive_link( 'product' ) ); ?>">see more &gt;</a></p>
 </section>
+
+<div class="section-divider"></div>
 
 <!-- ============ TESTIMONIALS ============ -->
 <section class="testimonials">
@@ -100,6 +102,8 @@ $content_id = ! empty( $site_content ) ? $site_content[0]->ID : null;
 		?>
 	</div>
 </section>
+
+<div class="section-divider"></div>
 
 <!-- ============ FROM OUR BLOG ============ -->
 <section class="blog-teaser">

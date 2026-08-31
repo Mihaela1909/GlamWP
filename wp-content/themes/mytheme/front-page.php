@@ -8,22 +8,92 @@ $site_content = get_posts( array(
 $content_id = ! empty( $site_content ) ? $site_content[0]->ID : null;
 ?>
 
-<!-- ============ HERO ============ -->
-<section class="hero" <?php if ( $content_id && get_field( 'hero_image', $content_id ) ) : ?>
-	style="background-image: url('<?php echo esc_url( get_field( 'hero_image', $content_id )['url'] ); ?>');"
-<?php endif; ?>>
-	<div class="hero-content">
-		<h1><?php echo $content_id ? esc_html( get_field( 'hero_headline', $content_id ) ) : 'Everyday glam, made simple'; ?></h1>
-		<div class="hero-buttons">
-			<a class="btn btn-shop" href="<?php echo $content_id ? esc_url( get_field( 'shop_button_link', $content_id ) ) : '#'; ?>">
-				<?php echo $content_id ? esc_html( get_field( 'shop_button_text', $content_id ) ) : 'Shop now'; ?>
-			</a>
-			<a class="btn btn-blog" href="<?php echo $content_id ? esc_url( get_field( 'blog_button_link', $content_id ) ) : '#'; ?>">
-				<?php echo $content_id ? esc_html( get_field( 'blog_button_text', $content_id ) ) : 'Read blog'; ?>
-			</a>
+<!-- ============ HERO CAROUSEL ============ -->
+<section class="hero-carousel">
+	<?php
+	$slides = $content_id ? get_field( 'hero_slides', $content_id ) : false;
+	if ( $slides ) :
+		$i = 0;
+		foreach ( $slides as $slide ) :
+			$i++;
+			?>
+			<div class="hero-slide <?php echo $i === 1 ? 'active' : ''; ?>"
+				style="background-image: url('<?php echo esc_url( $slide['slide_image']['url'] ); ?>');">
+				<div class="hero-content hero-content-<?php echo esc_attr( $slide['text_position'] ?: 'center' ); ?>">
+					<h1><?php echo esc_html( $slide['slide_heading'] ); ?></h1>
+					<div class="hero-buttons">
+						<?php if ( ! empty( $slide['slide_button_text'] ) ) : ?>
+							<a class="btn" href="<?php echo esc_url( $slide['slide_button_link'] ); ?>">
+								<?php echo esc_html( $slide['slide_button_text'] ); ?>
+							</a>
+						<?php endif; ?>
+						<?php if ( ! empty( $slide['slide_button_2_text'] ) ) : ?>
+							<a class="btn" href="<?php echo esc_url( $slide['slide_button_2_link'] ); ?>">
+								<?php echo esc_html( $slide['slide_button_2_text'] ); ?>
+							</a>
+						<?php endif; ?>
+					</div>
+				</div>
+			</div>
+			<?php
+		endforeach;
+	else :
+		// Fallback: single static hero if no slides are set up yet
+		?>
+		<div class="hero-slide active" <?php if ( $content_id && get_field( 'hero_image', $content_id ) ) : ?>
+			style="background-image: url('<?php echo esc_url( get_field( 'hero_image', $content_id )['url'] ); ?>');"
+		<?php endif; ?>>
+			<div class="hero-content">
+				<h1><?php echo $content_id ? esc_html( get_field( 'hero_headline', $content_id ) ) : 'Everyday glam, made simple'; ?></h1>
+				<div class="hero-buttons">
+					<a class="btn" href="<?php echo $content_id ? esc_url( get_field( 'shop_button_link', $content_id ) ) : '#'; ?>">
+						<?php echo $content_id ? esc_html( get_field( 'shop_button_text', $content_id ) ) : 'Shop now'; ?>
+					</a>
+					<a class="btn" href="<?php echo $content_id ? esc_url( get_field( 'blog_button_link', $content_id ) ) : '#'; ?>">
+						<?php echo $content_id ? esc_html( get_field( 'blog_button_text', $content_id ) ) : 'Read blog'; ?>
+					</a>
+				</div>
+			</div>
 		</div>
-	</div>
+	<?php endif; ?>
+
+	<?php if ( $slides && count( $slides ) > 1 ) : ?>
+		<div class="hero-dots">
+			<?php for ( $d = 0; $d < count( $slides ); $d++ ) : ?>
+				<span class="hero-dot <?php echo $d === 0 ? 'active' : ''; ?>" data-index="<?php echo $d; ?>"></span>
+			<?php endfor; ?>
+		</div>
+	<?php endif; ?>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+	const slides = document.querySelectorAll('.hero-slide');
+	const dots = document.querySelectorAll('.hero-dot');
+	if (slides.length <= 1) return;
+
+	let current = 0;
+	function showSlide(index) {
+		slides.forEach(function (s) { s.classList.remove('active'); });
+		dots.forEach(function (d) { d.classList.remove('active'); });
+		slides[index].classList.add('active');
+		if (dots[index]) dots[index].classList.add('active');
+		current = index;
+	}
+	function nextSlide() {
+		showSlide((current + 1) % slides.length);
+	}
+	let timer = setInterval(nextSlide, 5000);
+
+	dots.forEach(function (dot) {
+		dot.addEventListener('click', function () {
+			clearInterval(timer);
+			showSlide(parseInt(dot.dataset.index));
+			timer = setInterval(nextSlide, 5000);
+		});
+	});
+});
+</script>
 
 <!-- ============ BRAND MESSAGE ============ -->
 <section class="brand-message">
@@ -38,7 +108,7 @@ $content_id = ! empty( $site_content ) ? $site_content[0]->ID : null;
 	<div class="product-grid">
 		<?php
 		$bestsellers = new WP_Query( array(
-			'post_type'      => 'product',
+			'post_type'      => 'product', // adjust to your actual shop CPT slug
 			'posts_per_page' => 4,
 			'orderby'        => 'date',
 		) );

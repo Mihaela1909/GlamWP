@@ -20,7 +20,7 @@ $content_id = ! empty( $site_content ) ? $site_content[0]->ID : null;
 			<div class="hero-slide <?php echo $i === 1 ? 'active' : ''; ?>"
 				style="background-image: url('<?php echo esc_url( $slide['slide_image']['url'] ); ?>');">
 				<div class="hero-content hero-content-<?php echo esc_attr( $slide['text_position'] ?: 'center' ); ?>">
-					<h1><?php echo esc_html( $slide['slide_heading'] ); ?></h1>
+					<h1><?php echo nl2br( esc_html( $slide['slide_heading'] ) ); ?></h1>
 					<div class="hero-buttons">
 						<?php if ( ! empty( $slide['slide_button_text'] ) ) : ?>
 							<a class="btn" href="<?php echo esc_url( $slide['slide_button_link'] ); ?>">
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	<div class="product-grid">
 		<?php
 		$bestsellers = new WP_Query( array(
-			'post_type'      => 'product', // adjust to your actual shop CPT slug
+			'post_type'      => 'product',
 			'posts_per_page' => 4,
 			'orderby'        => 'date',
 		) );

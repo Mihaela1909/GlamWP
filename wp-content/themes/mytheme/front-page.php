@@ -8,7 +8,7 @@ $site_content = get_posts( array(
 $content_id = ! empty( $site_content ) ? $site_content[0]->ID : null;
 ?>
 
-<!-- ============ HERO CAROUSEL ============ -->
+<!-- ============ HERO CAROUSEL ============ -->*
 <section class="hero-carousel">
 	<?php
 	$slides = $content_id ? get_field( 'hero_slides', $content_id ) : false;

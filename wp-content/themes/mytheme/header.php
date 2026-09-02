@@ -16,11 +16,10 @@
 		</div>
 		<nav>
 			<ul>
-				<li><a href="<?php echo esc_url( get_post_type_archive_link( 'product' ) ); ?>">Shop</a></li>
-				<li><a href="#">Categories</a></li>
-				<li><a href="<?php echo esc_url( get_permalink( get_option( 'page_for_posts' ) ) ); ?>">Blog</a></li>
-				<li><a href="#">About</a></li>
-			</ul>
+	<li><a href="<?php echo esc_url( get_post_type_archive_link( 'product' ) ); ?>">Shop</a></li>
+	<li><a href="<?php echo esc_url( get_permalink( get_option( 'page_for_posts' ) ) ); ?>">Blog</a></li>
+	<li><a href="#">About</a></li>
+<li><a href="<?php echo esc_url( get_permalink( get_page_by_path( 'contact-us' ) ) ); ?>">Contact us</a></li></ul>
 		</nav>
 		<div class="cart">Cart</div>
 	</div>

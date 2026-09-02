@@ -88,7 +88,7 @@ $table_prefix = 'gwp_';
 * @link https://wordpress.org/support/article/debugging-in-wordpress/
 */
 if ( ! defined( 'WP_DEBUG' ) ) {
-define( 'WP_DEBUG', false );
+	define( 'WP_DEBUG', false );
 }
 
 define( 'WP_ENVIRONMENT_TYPE', 'local' );

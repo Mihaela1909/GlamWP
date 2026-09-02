@@ -178,30 +178,48 @@ document.addEventListener('DOMContentLoaded', function () {
 <!-- ============ FROM OUR BLOG ============ -->
 <section class="blog-teaser">
 	<h2>From our blog</h2>
-	<div class="blog-grid">
-		<?php
-		$latest_posts = new WP_Query( array(
-			'post_type'      => 'post',
-			'posts_per_page' => 2,
-			'orderby'        => 'date',
-		) );
-		if ( $latest_posts->have_posts() ) :
-			while ( $latest_posts->have_posts() ) : $latest_posts->the_post();
-				?>
-				<a class="blog-card" href="<?php the_permalink(); ?>">
-					<div class="blog-thumb"><?php the_post_thumbnail( 'medium' ); ?></div>
-					<h3><?php the_title(); ?></h3>
-					<p class="blog-excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 10 ) ); ?></p>
-					<p class="blog-date"><?php echo esc_html( get_the_date() ); ?></p>
-				</a>
+	<div class="blog-carousel">
+		<button class="blog-carousel-arrow blog-carousel-prev" aria-label="Previous posts">&lt;</button>
+<div class="blog-carousel-track">
 				<?php
-			endwhile;
-			wp_reset_postdata();
-		else :
-			echo '<p>No blog posts yet.</p>';
-		endif;
-		?>
+			$latest_posts = new WP_Query( array(
+				'post_type'      => 'post',
+				'posts_per_page' => 6,
+				'orderby'        => 'date',
+				'order'          => 'DESC',
+			) );
+			if ( $latest_posts->have_posts() ) :
+				while ( $latest_posts->have_posts() ) : $latest_posts->the_post();
+					get_template_part( 'template-parts/blog-card' );
+				endwhile;
+				wp_reset_postdata();
+			else :
+				echo '<p>No blog posts yet.</p>';
+			endif;
+			?>
+		</div>
+		<button class="blog-carousel-arrow blog-carousel-next" aria-label="Next posts">&gt;</button>
 	</div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+	const track = document.querySelector('.blog-carousel-track');
+	const prevBtn = document.querySelector('.blog-carousel-prev');
+	const nextBtn = document.querySelector('.blog-carousel-next');
+	if (!track || !prevBtn || !nextBtn) return;
+
+	function scrollAmount() {
+		const card = track.querySelector('.blog-card');
+		return card ? card.offsetWidth + 24 : 300;
+	}
+	prevBtn.addEventListener('click', function () {
+		track.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+	});
+	nextBtn.addEventListener('click', function () {
+		track.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+	});
+});
+</script>
 
 <?php get_footer(); ?>

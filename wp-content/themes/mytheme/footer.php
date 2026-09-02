@@ -1,21 +1,23 @@
 <footer class="site-footer">
-		<div class="logo"><?php bloginfo( 'name' ); ?></div>
-		<div>
+		<div class="container footer-grid">
+			<div class="logo">
+<img src="<?php echo get_theme_file_uri( 'assets/glam.png' ); ?>" alt="Glam">
+			</div>
 			<h4>Customer service</h4>
+			<h4>Information</h4>
+			<h4>Social Media</h4>
+
+			<div class="footer-divider"></div>
+
+			<div></div>
 			<ul>
 				<li><a href="#">Delivery</a></li>
 				<li><a href="#">Returns</a></li>
 			</ul>
-		</div>
-		<div>
-			<h4>Information</h4>
 			<ul>
 				<li><a href="#">About</a></li>
-				<li><a href="#">Contact</a></li>
+				<li><a href="<?php echo esc_url( get_permalink( get_page_by_path( 'contact-us' ) ) ); ?>">Contact</a></li>
 			</ul>
-		</div>
-		<div>
-			<h4>Social Media</h4>
 			<ul>
 				<li><a href="#">Instagram</a></li>
 				<li><a href="#">TikTok</a></li>

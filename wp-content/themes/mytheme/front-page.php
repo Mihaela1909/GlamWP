@@ -136,44 +136,45 @@ document.addEventListener('DOMContentLoaded', function () {
 <!-- ============ TESTIMONIALS ============ -->
 <section class="testimonials">
 	<h2>What users think</h2>
-	<div class="testimonial-grid">
-		<?php
-		$testimonials = new WP_Query( array(
-			'post_type'      => 'testimonial',
-			'posts_per_page' => 3,
-			'orderby'        => 'date',
-		) );
-		if ( $testimonials->have_posts() ) :
-			while ( $testimonials->have_posts() ) : $testimonials->the_post();
-				$photo = get_field( 'photo' );
-				?>
-				<div class="testimonial-card">
-					<div class="testimonial-header">
-						<?php if ( has_post_thumbnail() ) : ?>
-							<div class="avatar"><?php the_post_thumbnail( 'thumbnail' ); ?></div>
-						<?php else : ?>
-							<div class="avatar avatar-placeholder"></div>
-						<?php endif; ?>
-						<span class="sender-name"><?php the_title(); ?></span>
-					</div>
-					<p class="quote"><?php echo esc_html( get_field( 'quote' ) ); ?></p>
-					<?php if ( $photo ) : ?>
-						<div class="testimonial-photo">
-							<img src="<?php echo esc_url( $photo['url'] ); ?>" alt="">
+	<div class="testimonial-carousel">
+		<div class="testimonial-carousel-track" id="testimonial-track">
+			<?php
+			// Render the loop twice in a row so the animation can loop seamlessly.
+			for ( $pass = 0; $pass < 2; $pass++ ) :
+				$testimonials = new WP_Query( array(
+					'post_type'      => 'testimonial',
+					'posts_per_page' => -1,
+					'orderby'        => 'date',
+				) );
+				if ( $testimonials->have_posts() ) :
+					while ( $testimonials->have_posts() ) : $testimonials->the_post();
+						$photo = get_field( 'photo' );
+						?>
+						<div class="testimonial-card">
+							<div class="testimonial-header">
+								<?php if ( has_post_thumbnail() ) : ?>
+									<div class="avatar"><?php the_post_thumbnail( 'thumbnail' ); ?></div>
+								<?php else : ?>
+									<div class="avatar avatar-placeholder"></div>
+								<?php endif; ?>
+								<span class="sender-name"><?php the_title(); ?></span>
+							</div>
+							<p class="quote"><?php echo esc_html( get_field( 'quote' ) ); ?></p>
+							<?php if ( $photo ) : ?>
+								<div class="testimonial-photo">
+									<img src="<?php echo esc_url( $photo['url'] ); ?>" alt="">
+								</div>
+							<?php endif; ?>
 						</div>
-					<?php endif; ?>
-				</div>
-				<?php
-			endwhile;
-			wp_reset_postdata();
-		else :
-			echo '<p>No testimonials yet.</p>';
-		endif;
-		?>
+						<?php
+					endwhile;
+					wp_reset_postdata();
+				endif;
+			endfor;
+			?>
+		</div>
 	</div>
 </section>
-
-<div class="section-divider"></div>
 
 <!-- ============ FROM OUR BLOG ============ -->
 <section class="blog-teaser">
